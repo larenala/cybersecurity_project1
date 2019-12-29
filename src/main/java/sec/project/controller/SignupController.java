@@ -1,5 +1,6 @@
 package sec.project.controller;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,13 +11,13 @@ import sec.project.repository.SignupRepository;
 
 @Controller
 public class SignupController {
-
+    
     @Autowired
     private SignupRepository signupRepository;
 
     @RequestMapping("*")
     public String defaultMapping() {
-        return "redirect:/form";
+        return "redirect:/register";
     }
 
     @RequestMapping(value = "/form", method = RequestMethod.GET)
@@ -27,6 +28,7 @@ public class SignupController {
     @RequestMapping(value = "/form", method = RequestMethod.POST)
     public String submitForm(@RequestParam String name, @RequestParam String address) {
         signupRepository.save(new Signup(name, address));
+        List<Signup> signups = signupRepository.findAll();
         return "done";
     }
 
